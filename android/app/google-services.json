@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "1041681179622",
+    "firebase_url": "https://attendance-a0034-default-rtdb.firebaseio.com",
+    "project_id": "attendance-a0034",
+    "storage_bucket": "attendance-a0034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041681179622:android:fd73e43364b8720c73ec27",
+        "android_client_info": {
+          "package_name": "com.example.attendance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA7Th-o7gx4dltlktG2dPWsFPi7aPIGnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041681179622:android:9965375513af7c6d73ec27",
+        "android_client_info": {
+          "package_name": "com.example.seminar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA7Th-o7gx4dltlktG2dPWsFPi7aPIGnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
