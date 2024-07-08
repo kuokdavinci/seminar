@@ -49,23 +49,47 @@ class AttendanceListTab extends StatelessWidget {
           return Center(child: Text('No attendance records found.'));
         } else {
           Map<DateTime, List<Map<String, dynamic>>> attendanceByDate = snapshot.data!;
-          // Sort dates in ascending order
           List<DateTime> sortedDates = attendanceByDate.keys.toList();
           sortedDates.sort((a, b) => a.compareTo(b));
 
-          return ListView(
-            children: sortedDates.map((date) {
-              List<Map<String, dynamic>> records = attendanceByDate[date]!;
-              return ExpansionTile(
-                title: Text(DateFormat('dd/MM/yyyy').format(date)), // Format date for display
-                children: records.map((record) {
-                  return ListTile(
-                    title: Text('${record['userName']} - ${record['userId']}'),
-                    subtitle: Text('Course: ${record['CourseName']}\nCheckIn: ${record['CheckIn']}\nLocation: ${record['CheckInLocation']}\nCheckOut: ${record['CheckOut']}\nLocation: ${record['CheckOutLocation']}'),
-                  );
-                }).toList(),
-              );
-            }).toList(),
+          return Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top:50),
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                  child: Text(
+                    'Attendance List',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              SizedBox(height: 30,),
+              Expanded(
+                child: ListView(
+                  children: sortedDates.map((date) {
+                    List<Map<String, dynamic>> records = attendanceByDate[date]!;
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30,vertical: 7),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                        )
+                      ),
+                      child: ExpansionTile(
+                        title: Text(DateFormat('dd/MM/yyyy').format(date)), // Format date for display
+                        children: records.map((record) {
+                          return ListTile(
+                            title: Text('${record['userName']} - ${record['userId']}'),
+                            subtitle: Text('Course: ${record['CourseName']}\nCheckIn: ${record['CheckIn']}\nLocation: ${record['CheckInLocation']}\nCheckOut: ${record['CheckOut']}\nLocation: ${record['CheckOutLocation']}'),
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           );
         }
       },

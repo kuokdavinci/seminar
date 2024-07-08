@@ -141,11 +141,6 @@ class _AccountTabState extends State<AccountTab> {
     });
   }
 
-  Future<void> _logOut() async {
-    await _auth.signOut();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage()));
-  }
-
   List<DropdownMenuItem<String>> _buildDropdownMenuItems(List<String> items) {
     return items.map((String value) {
       return DropdownMenuItem<String>(
@@ -174,7 +169,6 @@ class _AccountTabState extends State<AccountTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 30),
               const Text(
                 'Account Information',
                 style: TextStyle(
@@ -247,33 +241,18 @@ class _AccountTabState extends State<AccountTab> {
               ),
               const SizedBox(height: 20),
               Container(
+                height: 50,
                 margin: const EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: _updateUserData,
-                      child: const Text(
-                        'Save',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: _logOut,
-                      child: const Text(
-                        'Logout',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ),
-                  ],
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: _updateUserData,
+                  child: const Text(
+                    'Save information',
+                    style: TextStyle(fontSize: 25),
+                  ),
                 ),
               ),
             ],
