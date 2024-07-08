@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seminar/source/resources/features/facedetect/detect.dart';
 import '../features/account_tab.dart';
 import '../features/course_tab.dart';
 import '../features/noti_tab.dart';
