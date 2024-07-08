@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seminar/source/resources/features/logout_tab.dart';
-
 import '../features/a_attendance_list_tab.dart';
 import '../features/a_create_course_tab.dart';
 import '../features/a_create_noti_tab.dart';

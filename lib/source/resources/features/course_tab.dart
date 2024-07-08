@@ -209,7 +209,7 @@ class _CourseTabState extends State<CourseTab> {
                                                 fontWeight: FontWeight.bold,
                                                 color: isCurrentTimeInRange
                                                     ? isCheckedOut ? Colors.lightGreen : Colors.indigo
-                                                    : Colors.red,:
+                                                    : Colors.red,
                                               ),
                                             ),
                                           ],
