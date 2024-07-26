@@ -53,12 +53,14 @@ class _CheckInTabState extends State<CheckInTab> {
 
   void _getLocation() async {
     try {
-      List<Placemark> placemarks =
-      await placemarkFromCoordinates(localUser.lat, localUser.long);
+      List<Placemark> placemarks = await placemarkFromCoordinates(localUser.lat, localUser.long);
       if (placemarks.isNotEmpty) {
         setState(() {
           location =
-          "${placemarks[0].street}, ${placemarks[0].administrativeArea}, ${placemarks[0].subAdministrativeArea}, ${placemarks[0].country}";
+          "${placemarks[0].street},"
+              " ${placemarks[0].administrativeArea}, "
+              "${placemarks[0].subAdministrativeArea}, "
+              "${placemarks[0].country}";
           print(location);
         });
       } else {
@@ -66,7 +68,6 @@ class _CheckInTabState extends State<CheckInTab> {
       }
         } catch (e) {
       print('Error getting location: $e');
-      // Xử lý lỗi ở đây, ví dụ hiển thị thông báo cho người dùng
     }
   }
 
@@ -141,8 +142,8 @@ class _CheckInTabState extends State<CheckInTab> {
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(top: 32),
                 child: Text(
-                  "Course: " + widget.courseName,
-                  style: TextStyle(
+                  "Course: ${widget.courseName}",
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                   ),

@@ -72,27 +72,33 @@ class _HomePageState extends State<AdminHomePage> with SingleTickerProviderState
         return AlertDialog(
           content: const Text('Logging out this account ?',style: TextStyle(fontSize: 18),),
           actions: <Widget>[
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.indigo,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-              },
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.indigo,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Confirm'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage()));
-                Navigator.pushReplacementNamed(context, '/login');
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close dialog
+                  },
+                ),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Confirm'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage()));
+                    Navigator.pushReplacementNamed(context, '/login');
+                  },
+                ),
+              ],
             ),
           ],
         );

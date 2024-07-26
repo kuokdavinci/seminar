@@ -106,8 +106,8 @@ class _AccountTabState extends State<AccountTab> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "Faculty can't be empty",
-                  style: TextStyle(color: Colors.white,fontSize: 17),
+                  "Faculty & Department can't be empty",
+                  style: TextStyle(color: Colors.white,fontSize: 15),
                 )
               ],
             ),
@@ -145,7 +145,9 @@ class _AccountTabState extends State<AccountTab> {
     return items.map((String value) {
       return DropdownMenuItem<String>(
         value: value,
-        child: Text(value),
+        child: SizedBox(
+            width:280,
+            child: Text(value)),
       );
     }).toList();
   }
@@ -163,9 +165,9 @@ class _AccountTabState extends State<AccountTab> {
     return SingleChildScrollView(
       child: Container(
         constraints: const BoxConstraints(minWidth: double.infinity, maxWidth: double.infinity),
-        margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+        margin: const EdgeInsets.symmetric(vertical: 50,horizontal: 20),
         child: Padding(
-          padding: const EdgeInsets.symmetric( vertical: 50.0),
+          padding: const EdgeInsets.symmetric( vertical: 50.0,horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -176,7 +178,7 @@ class _AccountTabState extends State<AccountTab> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 80),
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(

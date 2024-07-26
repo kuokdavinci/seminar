@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 30.0),
+                margin: const EdgeInsets.only(top: 70.0),
                 child: const Text('Attendance Checker App',
                     style: TextStyle(
                         fontSize: 25,

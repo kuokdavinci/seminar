@@ -8,21 +8,16 @@ class FireAuth {
 
   Future<User?> signUpWithEmailAndPassword(String email, String pass, String name, String id) async {
     try {
-      // Đăng ký người dùng với Firebase Authentication
       UserCredential credential = await _auth.createUserWithEmailAndPassword(email: email, password: pass);
 
-      // Kiểm tra xem đăng ký đã thành công hay không
       if (credential.user != null) {
-        // Nếu đăng ký thành công, thêm thông tin của người dùng vào Firestore
         await addUserToFirestore(credential.user!.uid, name, email, id);
         return credential.user;
       } else {
-        // Xử lý trường hợp đăng ký không thành công
         print('Failed to sign up user.');
         return null;
       }
     } catch (error) {
-      // Xử lý lỗi nếu có
       print('Error signing up user: $error');
       return null;
     }

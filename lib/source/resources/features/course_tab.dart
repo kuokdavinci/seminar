@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:seminar/source/resources/features/facedetect/camera.dart';
-import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CourseTab extends StatefulWidget {
-  const CourseTab({Key? key, this.image}) : super(key: key);
-  final XFile? image;
-
+  const CourseTab({Key? key}) : super(key: key);
   @override
   _CourseTabState createState() => _CourseTabState();
 }
 
 class _CourseTabState extends State<CourseTab> {
   late Future<List<DocumentSnapshot>> coursesFuture;
-  XFile? image;
 
   @override
   void initState() {
     super.initState();
     coursesFuture = fetchCourses();
-    image = widget.image;
   }
 
   Future<List<DocumentSnapshot>> fetchCourses() async {
@@ -87,16 +82,11 @@ class _CourseTabState extends State<CourseTab> {
     }
   }
 
-  bool isCheckOutToday(String checkOut) {
-    String todayDate = DateFormat('dd MM yyyy').format(DateTime.now());
-    return checkOut == todayDate;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        margin: const EdgeInsets.only(top: 100, left: 20,right: 20),
         padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,7 +144,10 @@ class _CourseTabState extends State<CourseTab> {
                                 onTap: () async {
                                   if (isCurrentTimeInRange) {
                                     await addCourseNameToFirestore(courseName);
-                                    pickImage(courseName);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => CameraPage(courseName: courseName)),
+                                    );
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
@@ -236,17 +229,5 @@ class _CourseTabState extends State<CourseTab> {
         ),
       ),
     );
-  }
-
-  Future<void> pickImage(String courseName) async {
-    final XFile? image = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CameraPage(courseName: courseName)),  // Truyền tên môn học qua CameraPage
-    );
-    if (image != null) {
-      setState(() {
-        this.image = image;
-      });
-    }
   }
 }

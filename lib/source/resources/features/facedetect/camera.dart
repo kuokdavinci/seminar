@@ -6,11 +6,15 @@ import 'package:camera/camera.dart' show CameraController, CameraDescription, Ca
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart' show FaceDetector, FaceDetectorOptions, InputImage;
 import 'package:lottie/lottie.dart' show Lottie;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../pages/home_page.dart';
 
 class CameraPage extends StatefulWidget {
-  final String courseName;  // Thêm tham số courseName
+  final String courseName;
 
   const CameraPage({super.key, required this.courseName});
 
@@ -57,12 +61,38 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
     }
   }
 
-  Future<void> pickImage() async {
-    if (controller != null && controller!.value.isInitialized) {
-      controller!.setFlashMode(FlashMode.off);
-      image = await controller!.takePicture();
-      final inputImage = InputImage.fromFilePath(image!.path);
-      processImage(inputImage);
+  Future<String?> uploadImageToFirebase(XFile imageFile) async {
+    try {
+      final storageRef = FirebaseStorage.instance.ref();
+      final imageRef = storageRef.child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+      await imageRef.putFile(File(imageFile.path));
+      final downloadURL = await imageRef.getDownloadURL();
+
+      return downloadURL;
+    } catch (e) {
+      print('Error uploading image: $e');
+      return null;
+    }
+  }
+
+  Future<void> saveUrlToFirestore(String courseName, String imageUrl) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    String userId = user!.uid;
+    String todayDate = DateFormat('dd MM yyyy').format(DateTime.now());
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('Records')
+          .doc(todayDate)
+          .set({
+        'CourseName': courseName,
+        'ImageUrl': imageUrl,
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print('Error saving URL to Firestore: $e');
     }
   }
 
@@ -123,7 +153,7 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
           },
         ),
         title: const Text(
-          "Face Authencation",
+          "Face Authentication",
           style: TextStyle(
               fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -181,9 +211,7 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
                                 setState(() {
                                   showLoaderDialog(context);
                                   final inputImage = InputImage.fromFilePath(image!.path);
-                                  Platform.isAndroid
-                                      ? processImage(inputImage)
-                                      : Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(initialTabIndex: 1)));
+                                  processImage(inputImage);
                                 });
                               }
                             } catch (e) {
@@ -218,16 +246,22 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
       setState(() {
         Navigator.of(context).pop(true);
         if (faces.isNotEmpty) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CheckInTab(courseName: widget.courseName),  // Truyền courseName sang CheckInTab
-            ),
-          );
+          uploadImageToFirebase(image!).then((downloadURL) {
+            if (downloadURL != null) {
+              saveUrlToFirestore(widget.courseName, downloadURL).then((_) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CheckInTab(courseName: widget.courseName),
+                  ),
+                );
+              });
+            } else {
+              showSnackBar("Error uploading image", Icons.error_outline, Colors.redAccent);
+            }
+          });
         } else {
-          showSnackBar(
-              "Can't detect your face", Icons.face_retouching_natural_outlined,
-              Colors.redAccent);
+          showSnackBar("Can't detect your face", Icons.face_retouching_natural_outlined, Colors.redAccent);
         }
       });
     }

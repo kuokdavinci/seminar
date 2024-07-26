@@ -6,7 +6,6 @@ class LoginBloc {
   final StreamController _passController = StreamController();
 
   Stream get emailStream => _emailController.stream;
-
   Stream get passStream => _passController.stream;
 
   bool isValidInfo(String user, String pass) {

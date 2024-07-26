@@ -16,7 +16,7 @@ class AttendanceListTab extends StatelessWidget {
 
       for (var recordDoc in recordsSnapshot.docs) {
         String dateString = recordDoc.id;
-        DateTime date = DateFormat('dd MM yyyy').parse(dateString); // Parse dateString to DateTime
+        DateTime date = DateFormat('dd MM yyyy').parse(dateString);
         Map<String, dynamic> recordData = recordDoc.data() as Map<String, dynamic>;
         recordData['userId'] = userId;
         recordData['userName'] = userName;
@@ -27,8 +27,6 @@ class AttendanceListTab extends StatelessWidget {
         attendanceByDate[date]!.add(recordData);
       }
     }
-
-    // Sort by DateTime in ascending order
     attendanceByDate.forEach((key, value) {
       value.sort((a, b) => DateTime.parse(a['date']).compareTo(DateTime.parse(b['date'])));
     });
@@ -55,7 +53,7 @@ class AttendanceListTab extends StatelessWidget {
           return Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top:50),
+                margin: EdgeInsets.only(top: 50),
                 child: const Padding(
                   padding: EdgeInsets.only(top: 50.0),
                   child: Text(
@@ -70,18 +68,35 @@ class AttendanceListTab extends StatelessWidget {
                   children: sortedDates.map((date) {
                     List<Map<String, dynamic>> records = attendanceByDate[date]!;
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30,vertical: 7),
+                      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 1,
-                        )
+                        ),
                       ),
                       child: ExpansionTile(
                         title: Text(DateFormat('dd/MM/yyyy').format(date)), // Format date for display
                         children: records.map((record) {
                           return ListTile(
+                            leading: record['ImageUrl'] != null
+                                ? Image.network(
+                              record['ImageUrl'],
+                              width: 35,
+                              height: 200,
+                              fit: BoxFit.fitWidth,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(Icons.error);
+                              },
+                            )
+                                : null,
                             title: Text('${record['userName']} - ${record['userId']}'),
-                            subtitle: Text('Course: ${record['CourseName']}\nCheckIn: ${record['CheckIn']}\nLocation: ${record['CheckInLocation']}\nCheckOut: ${record['CheckOut']}\nLocation: ${record['CheckOutLocation']}'),
+                            subtitle: Text(
+                              'Course: ${record['CourseName']}\n'
+                                  'CheckIn: ${record['CheckIn']}\n'
+                                  'Location: ${record['CheckInLocation']}\n'
+                                  'CheckOut: ${record['CheckOut']}\n'
+                                  'Location: ${record['CheckOutLocation']}',
+                            ),
                           );
                         }).toList(),
                       ),

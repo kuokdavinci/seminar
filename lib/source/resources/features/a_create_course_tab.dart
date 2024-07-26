@@ -112,7 +112,7 @@ class _CreateCourseTabState extends State<CreateCourseTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal:30,vertical: 30 ),
+        margin: const EdgeInsets.symmetric(horizontal:15,vertical: 30 ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -124,7 +124,7 @@ class _CreateCourseTabState extends State<CreateCourseTab> {
                 const SizedBox(height: 30),
                 const Center(
                   child: Text(
-                    'Create Notification',
+                    'Create Course',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -151,25 +151,24 @@ class _CreateCourseTabState extends State<CreateCourseTab> {
                     });
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                  Row(
                   children: [
                     Expanded(
                       child: ListTile(
-                        title: Text('Start: '),
+                        title: const Text('Start:'),
                         trailing: InkWell(
                           onTap: () => _selectStartTime(context),
-                          child: Text('${_startTime.format(context)}',style: TextStyle(fontSize: 18),),
+                          child: Text(_startTime.format(context),style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 16.0), // Optional space between ListTiles
+                    ), // Optional space between ListTiles
                     Expanded(
                       child: ListTile(
-                        title: Text('End: '),
+                        title: const Text('End: '),
                         trailing: InkWell(
                           onTap: () => _selectEndTime(context),
-                          child: Text('${_endTime.format(context)}',style: TextStyle(fontSize: 18),),
+                          child: Text(_endTime.format(context),style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                         ),
                       ),
                     ),
