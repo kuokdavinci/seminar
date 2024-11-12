@@ -36,7 +36,7 @@ class _CreateNotificationTabState extends State<CreateNotificationTab> {
               ),
               SizedBox(width: 10),
               Text(
-                "Sent notification successfully!",
+                "Sent successfully!",
                 style: TextStyle(color: Colors.white, fontSize: 17),
               ),
             ],

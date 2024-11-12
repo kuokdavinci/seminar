@@ -85,7 +85,7 @@ class _AccountTabState extends State<AccountTab> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "Update information successfully!",
+                  "Update successfully!",
                   style: TextStyle(color: Colors.white,fontSize: 17),
                 )
               ],
@@ -146,7 +146,7 @@ class _AccountTabState extends State<AccountTab> {
       return DropdownMenuItem<String>(
         value: value,
         child: SizedBox(
-            width:280,
+            width:240,
             child: Text(value)),
       );
     }).toList();

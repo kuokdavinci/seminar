@@ -158,80 +158,83 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
               fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
-      body: Stack(
-        children: [
-          SizedBox(
-            height: size.height,
-            width: size.width,
-            child: controller == null
-                ? const Center(child: Text("Camera problem", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)))
-                : !controller!.value.isInitialized
-                ? const Center(child: CircularProgressIndicator())
-                : CameraPreview(controller!),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 40),
-            child: Lottie.asset(
-              "assets/raw/face_id_ring.json",
-              fit: BoxFit.cover,
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
+      body: Center(
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom : 200),
+              height: size.height,
               width: size.width,
-              height: 200,
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(28),
-                  topRight: Radius.circular(28),
-                ),
+              child: controller == null
+                  ? const Center(child: Text("Camera problem", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)))
+                  : !controller!.value.isInitialized
+                  ? const Center(child: CircularProgressIndicator())
+                  : CameraPreview(controller!),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 40,bottom: 80),
+              child: Lottie.asset(
+                "assets/raw/face_id_ring.json",
+                fit: BoxFit.cover,
               ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Make sure you are in a place with good lighting conditions",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: size.width,
+                height: 200,
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(28),
+                    topRight: Radius.circular(28),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 40),
-                    child: ClipOval(
-                      child: Material(
-                        color: Colors.indigo,
-                        child: InkWell(
-                          splashColor: Colors.indigoAccent,
-                          onTap: () async {
-                            try {
-                              if (controller != null && controller!.value.isInitialized) {
-                                controller!.setFlashMode(FlashMode.off);
-                                image = await controller!.takePicture();
-                                setState(() {
-                                  showLoaderDialog(context);
-                                  final inputImage = InputImage.fromFilePath(image!.path);
-                                  processImage(inputImage);
-                                });
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Make sure you are in a place with good lighting conditions",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 40),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.indigo,
+                          child: InkWell(
+                            splashColor: Colors.indigoAccent,
+                            onTap: () async {
+                              try {
+                                if (controller != null && controller!.value.isInitialized) {
+                                  controller!.setFlashMode(FlashMode.off);
+                                  image = await controller!.takePicture();
+                                  setState(() {
+                                    showLoaderDialog(context);
+                                    final inputImage = InputImage.fromFilePath(image!.path);
+                                    processImage(inputImage);
+                                  });
+                                }
+                              } catch (e) {
+                                showSnackBar("$e", Icons.error_outline, Colors.redAccent);
                               }
-                            } catch (e) {
-                              showSnackBar("$e", Icons.error_outline, Colors.redAccent);
-                            }
-                          },
-                          child: const SizedBox(
-                            width: 56,
-                            height: 56,
-                            child: Icon(Icons.camera_alt, color: Colors.white),
+                            },
+                            child: const SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.camera_alt, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
